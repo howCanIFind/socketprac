@@ -35,6 +35,9 @@ public class StompHandler implements ChannelInterceptor {
 
             log.info("CONNECT");
 
+            String senderId = Optional.ofNullable(accessor.getFirstNativeHeader("senderId")).orElse("UnknownUser");
+            log.info("sessionId={}", senderId);
+
         }
 
         else if(StompCommand.SUBSCRIBE == accessor.getCommand()) {
@@ -42,14 +45,15 @@ public class StompHandler implements ChannelInterceptor {
 
             String destination = Optional.ofNullable((String) message.getHeaders().get("simpDestination")).orElse("InvalidRoomId");
 
+            log.info(destination);
             String roomId = chatMessageService.getRoomId(destination);
 
             String sessionId = (String) message.getHeaders().get("simpSessionId");
-            log.info(sessionId);
+            log.info("sessionId={}", sessionId);
             chatRoomService.setUserEnterInfo(sessionId, roomId);
 
-            String senderId = Optional.ofNullable(accessor.getFirstNativeHeader("sessionId")).orElse("UnknownUser");
-
+            String senderId = Optional.ofNullable(accessor.getFirstNativeHeader("senderId")).orElse("UnknownUser");
+            log.info("senderId={}", senderId);
             User user = userRepository.findById(Long.parseLong(senderId)).orElseThrow(
                     NullPointerException::new
             );

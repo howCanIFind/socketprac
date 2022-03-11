@@ -48,21 +48,30 @@ public class ChatMessageService {
         }
         //topic은 chatroom이다
         //conver
+        log.info(bwChatMessageResponseDto.getMessage());
         redisTemplate.convertAndSend(channelTopic.getTopic(), bwChatMessageResponseDto);
     }
 
     public void save(BwChatMessageResponseDto bwChatMessageResponseDto) {
-        User user = userService.findById(bwChatMessageResponseDto.getUserId());
+        log.info("save 시작 {}", bwChatMessageResponseDto.getSenderId());
+        User user = userService.findById(bwChatMessageResponseDto.getSenderId());
+        log.info("user 찾기 완료 {}", user.getNickname());
         BwChatRoom room = chatRoomService.getEachChatRoom(Long.parseLong(bwChatMessageResponseDto.getRoomId()));
-        BwChatMessage chatmessage = new BwChatMessage();
+        log.info("user 찾기 완료 {}", room.getId());
+        BwChatMessage bwChatMessage = new BwChatMessage();
 
-        chatmessage.setType(bwChatMessageResponseDto.getType());
-        chatmessage.setMessage(bwChatMessageResponseDto.getMessage());
-        chatmessage.setUser(user);
-        chatmessage.setRoom(room);
-        chatmessage.setCreatedAt(bwChatMessageResponseDto.getCreatedAt());
+        bwChatMessage.setType(bwChatMessageResponseDto.getType());
+        bwChatMessage.setMessage(bwChatMessageResponseDto.getMessage());
+        bwChatMessage.setUser(user);
+        bwChatMessage.setRoom(room);
+        bwChatMessage.setCreatedAt(bwChatMessageResponseDto.getCreatedAt());
+        log.info(String.valueOf(bwChatMessage.getType()));
+        log.info(String.valueOf(bwChatMessage.getMessage()));
+        log.info(String.valueOf(bwChatMessage.getCreatedAt()));
 
-        chatMessageRepository.save(chatmessage);
+        log.info("저장 직전");
+        chatMessageRepository.save(bwChatMessage);
+        log.info("저장 직후");
     }
 
     public void enternickname(BwChatMessageRequestDto bwChatMessageRequestDto) {

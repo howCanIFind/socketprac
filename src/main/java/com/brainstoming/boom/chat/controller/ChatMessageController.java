@@ -27,24 +27,31 @@ public class ChatMessageController {
 
     @MessageMapping("/api/chat/message")
     public void message(@RequestBody BwChatMessageRequestDto requestDto) {
-
+        log.info("message controller 시작");
+        log.info(requestDto.toString());
         // 메시지 생성 시간 삽입
         SimpleDateFormat sdf = new SimpleDateFormat("YYYY-MM-dd HH:mm");
         Calendar cal = Calendar.getInstance();
         Date date = cal.getTime();
         sdf.setTimeZone(TimeZone.getTimeZone("Asia/Seoul"));
         String dateResult = sdf.format(date);
-
+        log.info("날짜 생성 완료");
         BwChatMessageResponseDto bwChatMessageResponseDto = new BwChatMessageResponseDto();
-
+        log.info("bwChatMessageResponseDto 객체 생성완료");
         bwChatMessageResponseDto.setType(requestDto.getType());
         bwChatMessageResponseDto.setRoomId(requestDto.getRoomId());
         bwChatMessageResponseDto.setMessage(requestDto.getMessage());
         bwChatMessageResponseDto.setSender(requestDto.getSender());
+        bwChatMessageResponseDto.setSenderId(requestDto.getSenderId());
         bwChatMessageResponseDto.setCreatedAt(dateResult);
-
+        log.info("값 담기 완료");
         chatMessageService.sendChatMessage(bwChatMessageResponseDto);
+        log.info("sendChatMessage 완료");
+        log.info("userId {}", bwChatMessageResponseDto.getSenderId());
+
+
 
         chatMessageService.save(bwChatMessageResponseDto);
+        log.info("message controller 끝");
     }
 }

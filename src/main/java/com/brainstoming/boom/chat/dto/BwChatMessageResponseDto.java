@@ -1,10 +1,7 @@
 package com.brainstoming.boom.chat.dto;
 
 import com.brainstoming.boom.chat.BwChatMessage;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 @Setter
 @Getter
@@ -15,7 +12,7 @@ public class BwChatMessageResponseDto {
 
     private String roomId;
 
-    private Long userId;
+    private Long senderId;
 
     private String sender;
 
@@ -24,10 +21,10 @@ public class BwChatMessageResponseDto {
     private String createdAt;
 
     @Builder
-    public BwChatMessageResponseDto(BwChatMessage.MessageType type, String roomId, Long userId, String sender, String message, String createdAt) {
+    public BwChatMessageResponseDto(BwChatMessage.MessageType type, String roomId, Long senderId, String sender, String message, String createdAt) {
         this.type = type;
         this.roomId = roomId;
-        this.userId = userId;
+        this.senderId = senderId;
         this.sender = sender;
         this.message = message;
         this.createdAt = createdAt;

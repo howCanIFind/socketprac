@@ -13,28 +13,26 @@ public class BwChatMessageRequestDto {
 
     private BwChatMessage.MessageType type;
     private String roomId;
-    private Long userId;
+    private Long senderId;
     private String sender;
     private String message;
-    private String createdAt;
 
     @Builder
-    public BwChatMessageRequestDto(BwChatMessage.MessageType type, String roomId, Long userId, String sender, String message, String createdAt) {
+    public BwChatMessageRequestDto(BwChatMessage.MessageType type, String roomId, Long senderId, String sender, String message) {
         this.type = type;
         this.roomId = roomId;
-        this.userId = userId;
+        this.senderId = senderId;
         this.sender = sender;
         this.message = message;
-        this.createdAt = createdAt;
+
     }
 
     @Builder
-    public BwChatMessageRequestDto(BwChatMessage.MessageType type, String roomId, String sender, String message, String createdAt) {
+    public BwChatMessageRequestDto(BwChatMessage.MessageType type, String senderId, String sender, String message) {
         this.type = type;
         this.roomId = roomId;
-        this.userId = null;
+        this.senderId = null;
         this.sender = sender;
         this.message = message;
-        this.createdAt = createdAt;
     }
 }
